@@ -56,7 +56,7 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.pushButton.setText(_translate("MainWindow", "开始预测"))
         self.pushButton_5.setText(_translate("MainWindow", "结束"))
-        self.pushButton_3.setText(_translate("MainWindow", "PushButton1"))
+        self.pushButton_3.setText(_translate("MainWindow", "模型效果比较"))
         self.pushButton_4.setText(_translate("MainWindow", "PushButton2"))
         self.pushButton_2.setText(_translate("MainWindow", "画图"))
         self.groupBox.setTitle(_translate("MainWindow", "GroupBox"))

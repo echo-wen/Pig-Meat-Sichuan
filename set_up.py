@@ -14,16 +14,6 @@ import math
 years = [2011, 2012, 2013, 2014, 2015]
 
 
-# def Fun(p, x):
-#     # 线性回归模型
-#     regr = linear_model.LinearRegression()
-#     # 训练
-#     regr.fit(diabetes_X_train, diabetes_y_train)
-#     # 预测
-#     diabetes_y_pred = regr.predict(diabetes_X_test)
-#     return diabetes_y_pred
-
-
 def loadExcel(file='database.xlsx'):
     try:
         # 打开Excel文件读取数据
@@ -48,6 +38,7 @@ class ImgDisp(QMainWindow, ui.Ui_MainWindow):
         self.pushButton.clicked.connect(self.Calculation)
         self.pushButton_2.clicked.connect(self.Paint)
         self.pushButton_5.clicked.connect(self.BtnEnd)
+        self.pushButton_3.clicked.connect(self.Compare)
         self.pig_meat_price = loadExcel()
 
         self.Init_Widgets()
@@ -69,13 +60,29 @@ class ImgDisp(QMainWindow, ui.Ui_MainWindow):
         self.ax3d.set_ylabel("price")
         plt.show()
 
-    # 计算方法
+    def Compare(self):
+        self.pig_meat_price = loadExcel()
+        n_compare = self.pig_meat_price[0:52]
+        num = np.arange(0, len(self.pig_meat_price), 1)
+        n = 50
+        for i in num[52:]:
+            print(i)
+            var = self.Calculation(n)
+            n_compare.append(var)
+            n = n + 1
+
+        self.ax3d.plot(num, self.pig_meat_price, color='r', label='true')
+        self.ax3d.plot(num, n_compare, color='b', label='predict')
+        x_major_locator = plt.MultipleLocator(52)
+        self.ax3d.xaxis.set_major_locator(x_major_locator)
+        self.ax3d.axis([0, len(self.pig_meat_price), min(self.pig_meat_price), max(self.pig_meat_price)])
+        self.ax3d.legend()
+        self.SurfFigure.draw()
+        return
+        # 计算方法
+
     def Calculation(self, n):
-        try:
-            var = self.pig_meat_price[n] * -0.789 + self.pig_meat_price[n + 1] * 1.774 + 0.374
-            print(var)
-        except Exception as e:
-            print("---异常---：", e)
+        var = self.pig_meat_price[n] * -0.789 + self.pig_meat_price[n + 1] * 1.774 + 0.374
         return var
 
     def Paint(self):
@@ -92,8 +99,9 @@ class ImgDisp(QMainWindow, ui.Ui_MainWindow):
         x_major_locator = plt.MultipleLocator(52)
         self.ax3d.xaxis.set_major_locator(x_major_locator)
         self.ax3d.axis([0, len(self.pig_meat_price), min(self.pig_meat_price), max(self.pig_meat_price)])
-        self.SurfFigure.draw()
         self.ax3d.legend()
+        self.SurfFigure.draw()
+
         return
 
     def BtnEnd(self):
